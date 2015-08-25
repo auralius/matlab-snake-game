@@ -29,7 +29,7 @@ function mysnake()
     snake.fig_hnd = figure();
     hold on;
     snake.plot_hnd = plot(0, 0, 'b', 'LineWidth', 4);            
-    snake.plot_head_hnd = plot(0, 0, 'bo');           
+    snake.plot_head_hnd = plot(0, 0, 'og', 'LineWidth', 4);            
             
     % Initial snakes segments and direction
     snake.segments = [snake.xmax/2   snake.ymax/2; ...
@@ -74,7 +74,7 @@ function draw_snake(snake)
     if snake.collision == 1
         set(snake.plot_head_hnd, 'Color', 'r');
     else
-        set(snake.plot_head_hnd, 'Color', 'b');
+        set(snake.plot_head_hnd, 'Color', 'g');
     end
 end
 
