@@ -114,7 +114,9 @@ function snake = turn_left(snake)
         snake.segments(1, :) = [snake.segments(1, 1)-1 snake.segments(1, 2)];
     elseif snake.dir == 'S' % vertical snake, face south
         snake.segments(1, :) = [snake.segments(1, 1)+1 snake.segments(1, 2)];
-    end        
+    end       
+    
+    snake = check_collision(snake);
 end
 
 %%
@@ -130,6 +132,8 @@ function snake = turn_right(snake)
     elseif snake.dir == 'N' % vertical snake, face north
         snake.segments(1, :) = [snake.segments(1, 1)+1 snake.segments(1, 2)];
     end       
+    
+    snake = check_collision(snake);
 end
 
 %%
@@ -165,6 +169,8 @@ function snake = forward(snake)
     elseif snake.segments(1, 2) == - 1
         snake.segments(1, 2) = snake.ymax;
     end
+    
+    snake = check_collision(snake);
 end
 
 %%
@@ -272,7 +278,6 @@ function [] = key_pressed_fcn(H, E)
     end
     
     if snake.running == 1
-        snake = check_collision(snake);
         draw_snake(snake);
         guidata(snake.fig_hnd, snake);
     end
