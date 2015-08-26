@@ -48,11 +48,35 @@ function mysnake()
     % Introduction massage
     intro();
     
-    %
-    % Your AI here
-    % Use turn_left, turn_right, and forward functions here
-    % You can disable key_pressed_fcn callback function
-    %
+    snake_loop(snake);
+end
+
+%%
+function snake_loop(snake)
+    % The main loop     
+    while 1
+        snake = guidata(snake.fig_hnd);  
+        
+        snake = forward(snake);
+        draw_snake(snake);               
+        
+        %
+        % Your AI here
+        % Use turn_left, turn_right, and forward functions here
+        % Don't forget to refresh the plot by calling draw_snake function
+        % You can disable key_pressed_fcn callback function
+        %
+
+        guidata(snake.fig_hnd, snake);                
+        
+        if snake.running == 0
+            break;
+        end
+        
+        % Animation delay
+        pause(0.3);          
+    end
+    close all;
 end
 
 %%
@@ -240,9 +264,9 @@ function [] = key_pressed_fcn(H, E)
             snake = increase(snake);            
                         
         case 'escape'        
-            snake.running = 0;            
-            disp('quitting');
-            close all;
+            snake.running = 0;
+            guidata(snake.fig_hnd, snake);
+            disp('bye');            
             
         otherwise              
     end

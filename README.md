@@ -8,8 +8,7 @@ of a snake game.
 - Use the [Space] to increase the snake length. 
 - Use the [Esc] to quit. 
 
-The implementation does not consider the '_always moving snake_' feature. 
-The snake will only move if you push one of the arrow keys. No fruits will 
-appear. Length of the snake must be increased manually by pressing the 
-[SPACE] key. This is due to the idea of making this as a platform for AI 
-designing for a snake game problem.
+No fruits for the snake to eat will appear such that its length will increase. 
+The length of the snake must be increased manually by pressing the [SPACE] 
+key. The reason for this is due to the idea of making this as a platform 
+for AI designing for a snake game problem.
