@@ -271,6 +271,7 @@ function [] = key_pressed_fcn(H, E)
         otherwise              
     end
     
+    snake = check_collision(snake);
     guidata(snake.fig_hnd, snake);  
     draw_snake(snake); 
 end
