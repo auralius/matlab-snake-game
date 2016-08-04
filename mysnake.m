@@ -58,29 +58,28 @@ function snake_loop(snake)
         snake = guidata(snake.fig_hnd);  
         
         snake = forward(snake);
-        draw_snake(snake);               
+        draw_snake(snake);        
         
         %
         % Your AI here
         % Use turn_left, turn_right, and forward functions here
-        % Don't forget to refresh the plot by calling draw_snake function
         % You can disable key_pressed_fcn callback function
         %
-
-        guidata(snake.fig_hnd, snake);                
+        
+        guidata(snake.fig_hnd, snake);
+        
+        pause(0.3);  
         
         if snake.running == 0
             break;
         end
-        
-        % Animation delay
-        pause(0.3);          
     end
     close all;
 end
 
 %%
 function init_figure(snake)
+    % You can disable keypressfcn here.
     set (gcf, 'keypressfcn', @(src,eventdata)key_pressed_fcn(src, eventdata));        
     xlim([0, snake.xmax]);
     ylim([0, snake.ymax]);
@@ -108,15 +107,17 @@ function snake = turn_left(snake)
     
     if snake.dir == 'E' % horizontal snake, face east
         snake.segments(1, :) = [snake.segments(1, 1) snake.segments(1, 2)+1];
+        snake.dir = 'N';
     elseif snake.dir == 'W' % horizontal snake, face west
         snake.segments(1, :) = [snake.segments(1, 1) snake.segments(1, 2)-1];
+        snake.dir = 'S';
     elseif snake.dir == 'N' % vertical snake, face north
         snake.segments(1, :) = [snake.segments(1, 1)-1 snake.segments(1, 2)];
+        snake.dir = 'W';
     elseif snake.dir == 'S' % vertical snake, face south
         snake.segments(1, :) = [snake.segments(1, 1)+1 snake.segments(1, 2)];
-    end       
-    
-    snake = check_collision(snake);
+        snake.dir = 'E';
+    end        
 end
 
 %%
@@ -125,15 +126,17 @@ function snake = turn_right(snake)
     
     if snake.dir == 'E' % horizontal snake, face east
         snake.segments(1, :) = [snake.segments(1, 1) snake.segments(1, 2)-1];
+        snake.dir = 'S';
     elseif snake.dir == 'W' % horizontal snake, face west
         snake.segments(1, :) = [snake.segments(1, 1) snake.segments(1, 2)+1];
+        snake.dir = 'N';
     elseif snake.dir == 'S' % vertical snake, face south
         snake.segments(1, :) = [snake.segments(1, 1)-1 snake.segments(1, 2)];
+        snake.dir = 'W';
     elseif snake.dir == 'N' % vertical snake, face north
         snake.segments(1, :) = [snake.segments(1, 1)+1 snake.segments(1, 2)];
+        snake.dir = 'E';
     end       
-    
-    snake = check_collision(snake);
 end
 
 %%
@@ -225,10 +228,8 @@ function [] = key_pressed_fcn(H, E)
         case 'rightarrow'
             if (snake.dir == 'N')                
                 snake = turn_right(snake);                
-                snake.dir = 'E';
             elseif (snake.dir == 'S')                
                 snake = turn_left(snake);                
-                snake.dir = 'E';
             elseif (snake.dir == 'E')
                 snake = forward(snake);
             end                        
@@ -236,10 +237,8 @@ function [] = key_pressed_fcn(H, E)
         case 'leftarrow'
             if (snake.dir == 'N')                
                 snake = turn_left(snake);                
-                snake.dir = 'W';
             elseif (snake.dir == 'S')                
                 snake = turn_right(snake);               
-                snake.dir = 'W';
             elseif (snake.dir == 'W')
                 snake = forward(snake);
             end            
@@ -247,10 +246,8 @@ function [] = key_pressed_fcn(H, E)
         case 'uparrow'
             if (snake.dir == 'E')                
                 snake = turn_left(snake);                
-                snake.dir = 'N';
             elseif (snake.dir == 'W')                
                 snake = turn_right(snake);                
-                snake.dir = 'N';
             elseif (snake.dir == 'N')
                 snake = forward(snake);
             end            
@@ -258,10 +255,8 @@ function [] = key_pressed_fcn(H, E)
         case 'downarrow'            
             if (snake.dir == 'E')                
                 snake = turn_right(snake);                
-                snake.dir = 'S';
             elseif (snake.dir == 'W')                
                 snake = turn_left(snake);            
-                snake.dir = 'S';
             elseif (snake.dir == 'S')
                 snake = forward(snake);
             end            
@@ -271,16 +266,13 @@ function [] = key_pressed_fcn(H, E)
                         
         case 'escape'        
             snake.running = 0;
-            guidata(snake.fig_hnd, snake);
             disp('bye');            
             
         otherwise              
     end
     
-    if snake.running == 1
-        draw_snake(snake);
-        guidata(snake.fig_hnd, snake);
-    end
+    guidata(snake.fig_hnd, snake);  
+    draw_snake(snake); 
 end
 
 %%
